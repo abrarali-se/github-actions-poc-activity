@@ -1,0 +1,14 @@
+name: Use Custom Action
+on:
+  workflow_dispatch:
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run my custom action
+        id: hello
+        uses: abrarali-se/custom-hello-action@v1.0.0
+        with:
+          who-to-greet: 'Abrar Ali'
+      - name: Show the output
+        run: echo "Action output time is ${{ steps.hello.outputs.time }}"
