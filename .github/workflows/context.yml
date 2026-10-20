@@ -1,0 +1,32 @@
+name: Context and Conditionals
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+env:
+  DEMO_ENV: "from-env-context"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print contexts
+        run: |
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Repo variable: ${{ vars.APP_MODE }}"
+          echo "Env value: ${{ env.DEMO_ENV }}"
+      - name: Runs if actor contains abrar
+        if: contains(github.actor, 'abrar')
+        run: echo "contains() is true, hello ${{ github.actor }}"
+      - name: Runs on success
+        if: success()
+        run: echo "Previous steps succeeded"
+      - name: Always runs
+        if: always()
+        run: echo "always() runs no matter what"
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job waited for build using needs"
