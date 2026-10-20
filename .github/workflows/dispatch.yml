@@ -1,0 +1,11 @@
+name: Repository Dispatch
+on:
+  repository_dispatch:
+    types: [customwebhook]
+jobs:
+  webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Event type: ${{ github.event.action }}"
+          echo "Message: ${{ github.event.client_payload.message }}"
