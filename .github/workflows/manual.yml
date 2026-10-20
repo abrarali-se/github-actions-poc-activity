@@ -1,0 +1,23 @@
+name: Manual Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Your name'
+        required: true
+        default: 'Abrar'
+      greeting:
+        description: 'Greeting message'
+        required: true
+        default: 'Hello'
+      data:
+        description: 'Extra data'
+        required: false
+        default: 'PoC test'
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "${{ inputs.greeting }}, ${{ inputs.name }}!"
+          echo "Data: ${{ inputs.data }}"
