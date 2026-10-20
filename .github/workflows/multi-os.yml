@@ -1,0 +1,32 @@
+name: Multi OS
+on:
+  workflow_dispatch:
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Running on Ubuntu"
+          cat /etc/os-release | head -n 3
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Install package with Chocolatey
+        shell: pwsh
+        run: choco install jq -y
+      - name: PowerShell info
+        shell: pwsh
+        run: |
+          Write-Output "Running on Windows"
+          (Get-CimInstance Win32_OperatingSystem).Caption
+          [System.Environment]::OSVersion.VersionString
+          jq --version
+  macos:
+    runs-on: macos-latest
+    steps:
+      - name: Compile Swift
+        run: |
+          sw_vers
+          echo 'print("Hello from Swift on macOS")' > hello.swift
+          swiftc hello.swift -o hello
+          ./hello
